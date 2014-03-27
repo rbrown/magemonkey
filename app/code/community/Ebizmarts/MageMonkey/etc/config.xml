@@ -226,6 +226,7 @@
 			</custom_groupings>
     		<general>
 	    		<active>0</active>
+	    		<api_list_limit>25</api_list_limit>
 	    		<double_optin>System->Configuration->Customers->Newsletter->Subscription Options->Need to Confirm</double_optin>
 				<ecommerce360>0</ecommerce360>
 				<showreallistname>0</showreallistname>
