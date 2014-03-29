@@ -171,7 +171,11 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 		return $key;
 	}
 
-
+    /**
+     * Get List qty limit to be retrieved from MailChimp Account
+     * @see Ebizmarts_MageMonkey_Model_MCAPI::lists
+     * @return int Amount of Lists to be retrieved from API
+     */
     public function getApiListLimit()
     {
         $limit = $this->config('api_list_limit');
