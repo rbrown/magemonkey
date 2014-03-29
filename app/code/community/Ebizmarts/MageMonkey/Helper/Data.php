@@ -171,6 +171,18 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 		return $key;
 	}
 
+
+    public function getApiListLimit()
+    {
+        $limit = $this->config('api_list_limit');
+
+        if(!$limit) {
+            $limit = 25;
+        }
+
+        return $limit;
+    }
+
 	/**
 	 * Logging facility
 	 *
