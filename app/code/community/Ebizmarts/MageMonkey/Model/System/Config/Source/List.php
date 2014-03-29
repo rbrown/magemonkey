@@ -28,8 +28,12 @@ class Ebizmarts_MageMonkey_Model_System_Config_Source_List
 	public function __construct()
 	{
 		if( is_null($this->_lists) ){
+
+            // Retrieve List qty limit to be retrieved via API
+            $limit = Mage::helper('monkey')->getApiListLimit();
+
 			$this->_lists = Mage::getSingleton('monkey/api')
-							->lists();
+							->lists(array(), 0, $limit);
 		}
 	}
 
