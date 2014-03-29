@@ -245,7 +245,7 @@ class Ebizmarts_MageMonkey_Model_Observer
 			return $observer;
 		}
 
-		$lists = $api->lists();
+		$lists = $api->lists(array(), 0, Mage::helper('monkey')->getApiListLimit());
 
 		foreach($lists['data'] as $list){
 
