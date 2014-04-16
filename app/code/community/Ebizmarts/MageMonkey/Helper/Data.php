@@ -794,6 +794,9 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 		$isConfirmNeed = FALSE;
 		$curlists = (TRUE === array_key_exists('list', $odata)) ? $odata['list'] : array();
 		$lists    = $request->getPost('list', array());
+        Mage::log($curlists, null, 'lists.log');
+        Mage::log('- - - - -', null, 'lists.log');
+        Mage::log($lists, null, 'lists.log');
 
 		$defaultList = $this->getDefaultList(Mage::app()->getStore());
 
@@ -810,9 +813,10 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 
 			//Handle Unsubscribe and groups update actions
 			foreach($curlists as $listId => $list){
+Mage::log('---FOREACH---', null, 'MageMonkey_ApiCall.log');
 
 				if(FALSE === array_key_exists($listId, $lists)){
-
+Mage::log('---FALSE---', null, 'MageMonkey_ApiCall.log');
 					//Unsubscribe Email
 					if($defaultList == $listId){
 
@@ -830,6 +834,7 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 					}
 
 				}else{
+Mage::log('---TRUE---', null, 'MageMonkey_ApiCall.log');
 
 					$groupings = $lists[$listId];
 					unset($groupings['subscribed']);
@@ -856,7 +861,7 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 			}
 
 		}
-
+Mage::log('---START SUBSCRIBE---', null, 'MageMonkey_ApiCall.log');
 		//Subscribe to new lists
 		if(is_array($lists) && is_array($curlists)){
 			$subscribe = array_diff_key($lists, $curlists);
