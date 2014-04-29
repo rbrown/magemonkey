@@ -89,7 +89,7 @@ class Ebizmarts_MageMonkey_Block_Lists extends Mage_Core_Block_Template
 			if(empty($this->_generalList)){
 
 				$api      = $this->getApi();
-				$listData = $api->lists(array('list_id' => $list));
+				$listData = $api->lists(array('list_id' => $list), 0, Mage::helper('monkey')->getApiListLimit());
 
 				if(empty($this->_myLists)){
 					$this->_myLists = $api->listsForEmail($this->_getEmail());
@@ -132,7 +132,7 @@ class Ebizmarts_MageMonkey_Block_Lists extends Mage_Core_Block_Template
 					$this->_myLists = $api->listsForEmail($this->_getEmail());
 				}
 
-				$lists   = $api->lists(array('list_id' => $additionalLists));
+				$lists   = $api->lists(array('list_id' => $additionalLists), 0, Mage::helper('monkey')->getApiListLimit());
 
 				if($lists['total'] > 0){
 					foreach($lists['data'] as $list){
