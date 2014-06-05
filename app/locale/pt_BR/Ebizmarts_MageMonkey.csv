@@ -2,6 +2,8 @@
 "MageMonkey - MailChimp integration by ebizmarts", "MageMonkey - MailChimp integração por ebizmarts"
 "Get a free MailChimp account now","Tenha uma conta grátis agora"
 "Enabled","Ativado"
+"Yes", "Sim"
+"No", "Não"
 "API Key","Chave API"
 "General Subscription","Subscrição geral"
 "Your MailChimp API Key.<br/><a target ='_blank' href ='http://kb.mailchimp.com/article/where-can-i-find-my-api-key/'>Where can I find my API Key?</a>","Seu MailChimp Chave API.<br/><a target ='_blank' href ='http://kb.mailchimp.com/article/where-can-i-find-my-api-key/'>Onde posso encontrar minha chave API?</a>"
