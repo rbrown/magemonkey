@@ -12,30 +12,27 @@
 class Ebizmarts_MageMonkey_Model_System_Config_Source_List
 {
 
-	/**
-	 * Lists for API key will be stored here
-	 *
-	 * @access protected
-	 * @var array Email lists for given API key
-	 */
-	protected $_lists   = null;
+    /**
+     * Lists for API key will be stored here
+     *
+     * @access protected
+     * @var array Email lists for given API key
+     */
+    protected $_lists   = null;
 
-	/**
-	 * Load lists and store on class property
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		if( is_null($this->_lists) ){
+    /**
+     * Load lists and store on class property
+     */
+    public function __construct()
+    {
+        if( is_null($this->_lists) ){
 
             // Retrieve List qty limit to be retrieved via API
             $limit = Mage::helper('monkey')->getApiListLimit();
 
-			$this->_lists = Mage::getSingleton('monkey/api')
-							->lists(array(), 0, $limit);
-		}
-	}
+            $this->_lists = Mage::getSingleton('monkey/api')->lists(array(), 0, $limit);
+        }
+    }
 
     /**
      * Options getter
@@ -44,17 +41,17 @@ class Ebizmarts_MageMonkey_Model_System_Config_Source_List
      */
     public function toOptionArray()
     {
-    	$lists = array();
+        $lists = array();
 
-    	if(is_array($this->_lists)){
+        if(is_array($this->_lists)){
 
-    		foreach($this->_lists['data'] as $list){
-    			$lists []= array('value' => $list['id'], 'label' => $list['name'] . ' (' . $list['stats']['member_count'] . ' ' . Mage::helper('monkey')->__('members') . ')');
-    		}
+            foreach($this->_lists['data'] as $list){
+                $lists []= array('value' => $list['id'], 'label' => $list['name'] . ' (' . $list['stats']['member_count'] . ' ' . Mage::helper('monkey')->__('members') . ')');
+            }
 
-    	}else{
-    		$lists []= array('value' => '', 'label' => Mage::helper('monkey')->__('--- No data ---'));
-    	}
+        }else{
+            $lists []= array('value' => '', 'label' => Mage::helper('monkey')->__('--- No data ---'));
+        }
 
         return $lists;
     }
