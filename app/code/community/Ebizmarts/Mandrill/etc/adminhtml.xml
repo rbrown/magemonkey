@@ -3,19 +3,19 @@
     <menu>
         <system>
             <children>
-            	<email_template>
-            		<children>
-		                <mandrill translate="title" module="mandrill">
-		                    <title>Mandrill</title>
-		                    <children>
-				                <users_senders translate="title" module="mandrill">
-				                    <title>Senders</title>
-						            <action>adminhtml/mandrill_users/senders</action>
-				                </users_senders>
-		                    </children>
-		                </mandrill>
-            		</children>
-            	</email_template>
+                <email_template>
+                    <children>
+                        <mandrill translate="title" module="mandrill">
+                            <title>Mandrill</title>
+                            <children>
+                                <users_senders translate="title" module="mandrill">
+                                    <title>Senders</title>
+                                    <action>adminhtml/mandrill_users/senders</action>
+                                </users_senders>
+                            </children>
+                        </mandrill>
+                    </children>
+                </email_template>
             </children>
         </system>
         <newsletter>
@@ -28,9 +28,9 @@
             </children>
         </newsletter>
     </menu>
-	<acl>
-	    <resources>
-	      <admin>
+    <acl>
+        <resources>
+          <admin>
               <children>
                   <newsletter>
                       <children>
@@ -51,7 +51,7 @@
                       </children>
                   </system>
               </children>
-		</admin>
-	    </resources>
-	</acl>
+        </admin>
+        </resources>
+    </acl>
 </config>
