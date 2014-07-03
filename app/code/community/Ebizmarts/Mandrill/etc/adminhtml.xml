@@ -31,19 +31,26 @@
 	<acl>
 	    <resources>
 	      <admin>
-		    <children>
-		        <system>
-		            <children>
-		                <config>
-		                    <children>
-		                        <mandrill translate="title" module="mandrill">
-		                            <title>Mandrill Configuration</title>
-		                        </mandrill>
-		                    </children>
-		                </config>
-		            </children>
-		        </system>
-		    </children>
+              <children>
+                  <newsletter>
+                      <children>
+                          <ebizmarts_mandrill translate="title" module="mandrill">
+                              <title>Mandrill Settings</title>
+                          </ebizmarts_mandrill>
+                      </children>
+                  </newsletter>
+                  <system>
+                      <children>
+                          <config>
+                              <children>
+                                  <mandrill translate="title" module="mandrill">
+                                      <title>Mandrill Configuration</title>
+                                  </mandrill>
+                              </children>
+                          </config>
+                      </children>
+                  </system>
+              </children>
 		</admin>
 	    </resources>
 	</acl>

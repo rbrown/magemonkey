@@ -40,6 +40,20 @@
         <resources>
             <admin>
                 <children>
+                    <dashboard>
+                        <children>
+                            <ebizmarts_abandonedcart translate="title" module="ebizmarts_abandonedcart">
+                                <title>Ebizmarts Abandoned Cart</title>
+                            </ebizmarts_abandonedcart>
+                        </children>
+                    </dashboard>
+                    <sales>
+                        <children>
+                            <ebizmarts_abandonedcart translate="title" module="ebizmarts_abandonedcart">
+                                <title>Abandoned Cart Orders</title>
+                            </ebizmarts_abandonedcart>
+                        </children>
+                    </sales>
                     <system>
                         <children>
                             <config>
