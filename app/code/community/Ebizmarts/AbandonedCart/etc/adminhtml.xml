@@ -72,9 +72,6 @@
                                     <ebizmarts_abandonedcart translate="title" module="ebizmarts_abandonedcart">
                                         <title>Ebizmarts Abandoned Cart</title>
                                     </ebizmarts_abandonedcart>
-                                    <ebizmarts_emails translate="title" module="ebizmarts_abandonedcart">
-                                        <title>Ebizmarts Emails</title>
-                                    </ebizmarts_emails>
                                 </children>
                             </config>
                         </children>
