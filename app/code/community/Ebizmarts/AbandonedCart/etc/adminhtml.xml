@@ -40,6 +40,17 @@
         <resources>
             <admin>
                 <children>
+                    <newsletter>
+                        <children>
+                            <magemonkey>
+                                <children>
+                                    <ebizmarts_emails translate="title">
+                                        <title>Emails Sent</title>
+                                    </ebizmarts_emails>
+                                </children>
+                            </magemonkey>
+                        </children>
+                    </newsletter>
                     <dashboard>
                         <children>
                             <ebizmarts_abandonedcart translate="title" module="ebizmarts_abandonedcart">
