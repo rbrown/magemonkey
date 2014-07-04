@@ -41,6 +41,18 @@
                   </newsletter>
                   <system>
                       <children>
+                          <email_template>
+                              <children>
+                                  <mandrill translate="title" module="mandrill">
+                                      <title>Mandrill</title>
+                                      <children>
+                                          <users_senders translate="title">
+                                              <title>Senders</title>
+                                          </users_senders>
+                                      </children>
+                                  </mandrill>
+                              </children>
+                          </email_template>
                           <config>
                               <children>
                                   <mandrill translate="title" module="mandrill">
