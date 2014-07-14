@@ -144,6 +144,20 @@
                                 <ecommerce360>3</ecommerce360>
                             </depends>
                         </order_status>
+                        <ecommerce360_batchlimit>
+                            <label>Ecommerce360 Export Limit</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>monkey/system_config_source_ecommerce360_batchlimit</source_model>
+                            <sort_order>67</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <comment><![CDATA[Used when enable Ecommerce360 for the first time. Amount of Orders to send by cron in each execution.]]></comment>
+                            <depends>
+                                <ecommerce360>3</ecommerce360>
+                            </depends>
+                        </ecommerce360_batchlimit>
                         <map_fields translate="label comment">
                             <label>Customer Fields Mapping</label>
                             <frontend_model>monkey/adminhtml_system_config_form_field_mapfields</frontend_model>
