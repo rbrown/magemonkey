@@ -228,6 +228,7 @@
 	    		<active>0</active>
 	    		<double_optin>System->Configuration->Customers->Newsletter->Subscription Options->Need to Confirm</double_optin>
 				<ecommerce360>0</ecommerce360>
+				<ecommerce360_batchlimit>500</ecommerce360_batchlimit>
 				<showreallistname>0</showreallistname>
 				<checkout_subscribe>0</checkout_subscribe>
 				<transactional_emails>false</transactional_emails>
