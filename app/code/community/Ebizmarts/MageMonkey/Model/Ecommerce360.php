@@ -250,7 +250,15 @@ class Ebizmarts_MageMonkey_Model_Ecommerce360
     public function autoExportJobs(){
         $allow_sent = false;
         $orders = Mage::getResourceModel('sales/order_collection');
+
+        // retrieve batch limit to use in each time cron it's executed
+        $ordersBatchLimit = Mage::helper('monkey/export')->getEcommerce360BatchLimit();
+
         $orders->getSelect()->joinLeft( array('ecommerce'=> Mage::getSingleton('core/resource')->getTableName('monkey/ecommerce')), 'main_table.entity_id = ecommerce.order_id', 'main_table.*')->where('ecommerce.order_id is null');
+
+        if($ordersBatchLimit) {
+            $orders->setLimit($ordersBatchLimit);
+        }
 
         //Get status options selected in the Configuration
         $states = explode(',', Mage::helper('monkey')->config('order_status'));
