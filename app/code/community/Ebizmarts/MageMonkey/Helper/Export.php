@@ -62,4 +62,17 @@ class Ebizmarts_MageMonkey_Helper_Export extends Mage_Core_Helper_Abstract
 		return $membersData;
 	}
 
+    /**
+     * Return Ecommerce360 Batch Limit for autoExportJobs()
+     *
+     * @see Ebizmarts_MageMonkey_Model_Cron::processAutoExportJobs()
+     * @see Ebizmarts_MageMonkey_Model_Ecommerce360::autoExportJobs()
+     *
+     * @return int
+     */
+    public function getEcommerce360BatchLimit()
+    {
+        return (int)Mage::helper('monkey')->config('general/ecommerce360_batchlimit');
+    }
+
 }
