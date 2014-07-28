@@ -16,6 +16,15 @@ class Ebizmarts_Autoresponder_Block_Backtostock_Notice extends Mage_Core_Block_T
         $this->setTemplate('ebizmarts/autoresponder/backtostock/catalog/product/notice.phtml');
     }
 
+    protected function _toHtml()
+    {
+        if(!$this->helper('ebizmarts_autoresponder')->config('backtostock/active')) {
+            return false;
+        }
+
+        return parent::_toHtml();
+    }
+
     public function isLoggedIn()
     {
         return Mage::helper('customer')->isLoggedIn();
