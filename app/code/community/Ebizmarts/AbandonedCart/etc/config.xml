@@ -45,7 +45,7 @@
             <email>
                 <ebizmarts_abandonedcart_general_template4 translate="label" module="ebizmarts_abandonedcart">
                     <label>Fourth Abandoned Cart Mail</label>
-                    <file>sales/abandoned_cart_mail_4.html</file>
+                    <file>sales/abandoned_cart_mail_generic.html</file>
                     <type>html</type>
                 </ebizmarts_abandonedcart_general_template4>
             </email>
@@ -54,7 +54,7 @@
             <email>
                 <ebizmarts_abandonedcart_general_template5 translate="label" module="ebizmarts_abandonedcart">
                     <label>Fifth Abandoned Cart Mail</label>
-                    <file>sales/abandoned_cart_mail_5.html</file>
+                    <file>sales/abandoned_cart_mail_generic.html</file>
                     <type>html</type>
                 </ebizmarts_abandonedcart_general_template5>
             </email>

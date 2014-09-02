@@ -59,10 +59,18 @@ class Ebizmarts_AbandonedCart_Model_Cron
                 return;
             }
 
+            // subtract days from latest run to get difference from the actual abandon date of the cart
+            $diff = $days[$run];
+            if($run == 1 && $unit == Ebizmarts_AbandonedCart_Model_Config::IN_HOURS){
+                $diff -= $days[0]/24;
+            }elseif($run != 0){
+                $diff -= $days[$run-1];
+            }
+
             // set the top date of the carts to get
-            $expr = sprintf('DATE_SUB(%s, %s)', $adapter->quote(now()), $this->_getIntervalUnitSql($days[$run], 'DAY'));
+            $expr = sprintf('DATE_SUB(%s, %s)', $adapter->quote(now()), $this->_getIntervalUnitSql($diff, 'DAY'));
             if($run == 0 && $unit == Ebizmarts_AbandonedCart_Model_Config::IN_HOURS) {
-                $expr = sprintf('DATE_SUB(%s, %s)', $adapter->quote(now()), $this->_getIntervalUnitSql($days[0], 'HOUR'));
+                $expr = sprintf('DATE_SUB(%s, %s)', $adapter->quote(now()), $this->_getIntervalUnitSql($diff, 'HOUR'));
             }
             $from = new Zend_Db_Expr($expr);
 
@@ -115,21 +123,21 @@ class Ebizmarts_AbandonedCart_Model_Cron
                     $quote2 = Mage::getModel('sales/quote')->loadByIdWithoutStore($quote->getId());
                     $unsubscribeUrl = Mage::getModel('core/url')->setStore($store)->getUrl().'ebizautoresponder/autoresponder/unsubscribe?list=abandonedcart&email='.$email.'&store='.$store;
                     $couponcode = '';
-                    $currentCounter = $quote2->getEbizmartsAbandonedcartCounter();
 
-                    //if hour is set for first run calculates hours passed since last update else calculates days
+                    //if hour is set for first run calculates hours since cart was created else calculates days
                     $today = idate('U', strtotime(now()));
                     $updatedAt = idate('U', strtotime($quote2->getUpdatedAt()));
-                    if($unit == Ebizmarts_AbandonedCart_Model_Config::IN_HOURS  && $currentCounter == 0){
-                        $diff = intval(($today-$updatedAt)/60/60);
-                    }else{
-                        $diff = intval(($today-$updatedAt)/60/60/24);
-                    }
-                    if($diff >= $days[$currentCounter] && $currentCounter <= $maxtimes ){
+                    $updatedAtDiff = ($today-$updatedAt)/60/60/24;
+                        if($unit == Ebizmarts_AbandonedCart_Model_Config::IN_HOURS && $run == 0){
+                            $updatedAtDiff = ($today-$updatedAt)/60/60;
+                        }
 
-                        $mailsubject = $this->_getMailSubject($currentCounter, $store);
-                        $templateId = $this->_getTemplateId($currentCounter);
-                        if($sendcoupon && $currentCounter+1 == $sendcoupondays)
+                    // if days have passed proceed to send mail
+                    if($updatedAtDiff >= $diff && $run <= $maxtimes ){
+
+                        $mailsubject = $this->_getMailSubject($run, $store);
+                        $templateId = $this->_getTemplateId($run);
+                        if($sendcoupon && $run+1 == $sendcoupondays)
                         {
                             //$templateId = Mage::getStoreConfig(Ebizmarts_AbandonedCart_Model_Config::EMAIL_TEMPLATE_XML_PATH);
                             // create a new coupon
