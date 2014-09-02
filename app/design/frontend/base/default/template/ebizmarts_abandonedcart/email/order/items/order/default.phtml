@@ -20,12 +20,12 @@
         <?php echo $this->escapeHtml($_item->getDescription()) ?>
     </td>
     <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $this->htmlEscape($this->getSku($_item)) ?></td>
-    <td align="center" style="padding:3px 9px; border-bottom:2px solid #999; border-right:1px solid #ddd;">
-        ?<?php $product = Mage::getModel('catalog/product')
+    <!--<td align="center" style="padding:3px 9px; border-bottom:2px solid #999; border-right:1px solid #ddd;">
+        ?<?php/* $product = Mage::getModel('catalog/product')
             ->setStoreId($_item->getOrder()->getStoreId())
             ->load($_item->getProductId()); ?>
-        <img src="<?php echo Mage::helper('catalog/image')->init($product, 'image')->resize(115); ?>" width="115" height="115" alt="" />
-    </td>
+        <img src="<?php echo Mage::helper('catalog/image')->init($product, 'image')->resize(115);*/ ?>" width="115" height="115" alt="" />
+    </td>-->
     <td align="center" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $_item->getQtyOrdered()*1 ?></td>
     <td align="right" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
         <?php if ($this->helper('tax')->displaySalesPriceExclTax($_quote->getStoreId()) || $this->helper('tax')->displaySalesBothPrices($_quote->getStore())): ?>

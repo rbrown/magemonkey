@@ -133,7 +133,7 @@ class Ebizmarts_AbandonedCart_Model_Cron
                         }
 
                     // if days have passed proceed to send mail
-                    if($updatedAtDiff >= $diff && $run <= $maxtimes ){
+                    if($updatedAtDiff >= $diff){
 
                         $mailsubject = $this->_getMailSubject($run, $store);
                         $templateId = $this->_getTemplateId($run);
