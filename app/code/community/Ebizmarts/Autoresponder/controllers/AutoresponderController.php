@@ -37,10 +37,16 @@ class Ebizmarts_Autoresponder_AutoresponderController extends Mage_Core_Controll
                             ->setStoreId($params['store']);
                 $unsubscribe->save();
             }
+            $customer = Mage::getModel('customer/customer');
+            $customer->setStore(Mage::app()->getStore($params['store']));
+            $customer->loadByEmail($params['email']);
+            $customer->setAutoresponderToken(NULL);
+            $customer->save();
         }
         $this->loadLayout();
         $this->renderLayout();
     }
+
     public function savelistAction()
     {
         if(!Mage::helper('customer')->isLoggedIn()) {
@@ -73,13 +79,15 @@ class Ebizmarts_Autoresponder_AutoresponderController extends Mage_Core_Controll
 
         $this->_redirect('ebizautoresponder/autoresponder');
     }
+
     protected function _getCustomerId()
     {
         if(Mage::getSingleton('customer/session')->isLoggedIn()) {
             $customerData = Mage::getSingleton('customer/session')->getCustomer();
-            return $customerData->getId();
+            return $customerData->getIdgetId();
         }
     }
+
     public function getVisitedProductsConfigAction()
     {
         $params = $this->getRequest()->getParams();
@@ -117,5 +125,33 @@ class Ebizmarts_Autoresponder_AutoresponderController extends Mage_Core_Controll
                 ->setStoreId($storeId)
                 ->setVisitedAt(Mage::getModel('core/date')->gmtDate())
                 ->save();
+    }
+
+    public function loadquoteAction()
+    {
+        $params = $this->getRequest()->getParams();
+        if(isset($params['id']))
+        {
+            //restore the quote
+//            Mage::log($params['id']);
+
+
+            $quote = Mage::getModel('customer/customer')->load($params['id']);
+            $url = Mage::getStoreConfig(Ebizmarts_Autoresponder_Model_Config::PAGE,$quote->getStoreId()).'/id/'.$params['itemId'];
+            if(!isset($params['token2']) || (isset($params['token2'])&&$params['token2']!=$quote->getAutoresponderToken())) {
+                //Mage::getSingleton('customer/session')->addNotice("Your review token is incorrect");
+                $this->_redirect($url);
+            }
+            else {
+                $session = Mage::getSingleton('customer/session');
+                $session->loginById($params['id']);
+                $this->_redirect($url);
+            }
+        }else{
+            Mage::log('paso 1', null, 'Santiago.log', true);
+
+            $url = 'review/product/list/id/'.$params['itemId'];
+            $this->_redirect($url);
+        }
     }
 }

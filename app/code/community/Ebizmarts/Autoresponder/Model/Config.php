@@ -31,6 +31,8 @@ class Ebizmarts_Autoresponder_Model_Config
 
     const REVIEW_ACTIVE                 = 'ebizmarts_autoresponder/review/active';
     const REVIEW_DAYS                   = 'ebizmarts_autoresponder/review/days';
+    const PAGE                          = 'ebizmarts_autoresponder/review/page';
+    const AUTOLOGIN                     = "ebizmarts_autoresponder/review/autologin";
     const REVIEW_CUSTOMER_GROUPS        = 'ebizmarts_autoresponder/review/customer';
     const REVIEW_TEMPLATE               = 'ebizmarts_autoresponder/review/template';
     const REVIEW_MANDRILL_TAG           = 'ebizmarts_autoresponder/review/mandrill-tag';

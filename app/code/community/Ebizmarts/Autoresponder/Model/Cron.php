@@ -267,6 +267,7 @@ class Ebizmarts_Autoresponder_Model_Cron
         $sender         = array('name'=>Mage::getStoreConfig("trans_email/ident_$senderId/name",$storeId), 'email'=> Mage::getStoreConfig("trans_email/ident_$senderId/email",$storeId));
         $templateId     = Mage::getStoreConfig(Ebizmarts_Autoresponder_Model_Config::REVIEW_TEMPLATE,$storeId);
         $status         = Mage::getStoreConfig(Ebizmarts_Autoresponder_Model_Config::REVIEW_STATUS,$storeId);
+        $autologin      = Mage::getStoreConfig(Ebizmarts_Autoresponder_Model_Config::AUTOLOGIN,$storeId);
 
         $expr = sprintf('DATE_SUB(%s, %s)', $adapter->quote(now()), $this->_getIntervalUnitSql($days, 'DAY'));
         $from = new Zend_Db_Expr($expr);
@@ -306,6 +307,31 @@ class Ebizmarts_Autoresponder_Model_Cron
                     }
                     $products[] = $product;
                 }
+
+                srand((double)microtime()*1000000);
+                $token2 = md5(rand(0,9999999));
+                //getFisrtElement()??
+                if(!$order->getCustomerIsGuest()){
+                    $customer = Mage::getModel('customer/customer');
+                    $customer->setStore(Mage::app()->getStore($storeId));
+                    $customer->loadByEmail($order->getCustomerEmail());
+                    if($customer->getId()){
+                        if(!$customer->getAutoresponderToken()){
+                            $customer->setAutoresponderToken($token2)->save();
+                        }else{
+                            $token2 = $customer->getAutoresponderToken();
+                        }
+                    }
+                    //$customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
+                    Mage::log('customer', null, 'Santiago.log', true);
+                    Mage::log($customer->getEmail(), null, 'Santiago.log', true);
+                    Mage::log('----Token seteada----', null, 'Santiago.log', true);
+                    Mage::log($customer->getAutoresponderToken(), null, 'Santiago.log', true);
+                }
+                //$url2 = Mage::getModel('core/url')->setStore($storeId)->getUrl(/*'',array('_nosid'=>true)*/).'ebizautoresponder/autoresponder/review/product/list/loadquote?id='.$order->getCustomerId().'&token='.$token2;
+                /*foreach ($collection2 as $customer){
+
+                }*/
                 $orderNum = $order->getIncrementId();
                 $url = Mage::getModel('core/url')->setStore($storeId)->getUrl().'ebizautoresponder/autoresponder/unsubscribe?list=review&email='.$email.'&store='.$storeId;
                 if(Mage::getStoreConfig(Ebizmarts_Autoresponder_Model_Config::REVIEW_HAS_COUPON,$storeId)) {
@@ -314,6 +340,11 @@ class Ebizmarts_Autoresponder_Model_Cron
                 else {
                     $vars = array('name' => $name,'tags'=>array($tags),'products'=>$products,'ordernum'=>$orderNum,'url'=>$url);
                 }
+                Mage::log('autologin', null, 'Santiago.log', true);
+                Mage::log($autologin, null, 'Santiago.log', true);
+                if($autologin == 1 && !$order->getCustomerIsGuest() && $customer->getId()){
+                    $vars = array_merge($vars,array('token2' => $token2, 'id'=>$customer->getId(), 'storeId'=>$storeId));
+                }
                 $mail = Mage::getModel('core/email_template')->setTemplateSubject($mailSubject)->sendTransactional($templateId,$sender,$email,$name,$vars,$storeId);
                 $translate->setTranslateInLine(true);
                 Mage::helper('ebizmarts_abandonedcart')->saveMail('product review',$email,$name,"",$storeId);
@@ -321,6 +352,7 @@ class Ebizmarts_Autoresponder_Model_Cron
         }
 
     }
+
     protected function _processWishlist($storeId)
     {
         $customerGroups = explode(",",Mage::getStoreConfig(Ebizmarts_Autoresponder_Model_Config::WISHLIST_CUSTOMER_GROUPS, $storeId));
