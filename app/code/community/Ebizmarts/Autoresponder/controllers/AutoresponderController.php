@@ -38,10 +38,13 @@ class Ebizmarts_Autoresponder_AutoresponderController extends Mage_Core_Controll
                 $unsubscribe->save();
             }
             $customer = Mage::getModel('customer/customer');
-            $customer->setStore(Mage::app()->getStore($params['store']));
-            $customer->loadByEmail($params['email']);
-            $customer->setAutoresponderToken(NULL);
+            $customer->setStore(Mage::app()->getStore($params['store']))->loadByEmail($params['email']);
+            $customer->setData('autoresponder_token', NULL);
             $customer->save();
+            Mage::log('---Customer---', null, 'Santiago.log', true);
+            Mage::log($customer->getEmail(), null, 'Santiago.log', true);
+            Mage::log('---Customer token2---', null, 'Santiago.log', true);
+            Mage::log($customer->getAutoresponderToken(), null, 'Santiago.log', true);
         }
         $this->loadLayout();
         $this->renderLayout();
@@ -137,7 +140,14 @@ class Ebizmarts_Autoresponder_AutoresponderController extends Mage_Core_Controll
 
 
             $quote = Mage::getModel('customer/customer')->load($params['id']);
+            Mage::log('---Customer---', null, 'Santiago.log', true);
+            Mage::log($quote->getEmail(), null, 'Santiago.log', true);
+            Mage::log('---Customer token---', null, 'Santiago.log', true);
+            Mage::log($quote->getAutoresponderToken(), null, 'Santiago.log', true);
             $url = Mage::getStoreConfig(Ebizmarts_Autoresponder_Model_Config::PAGE,$quote->getStoreId()).'/id/'.$params['itemId'];
+            if(isset($params['token'])){
+                $url .= '/token/'.$params['token'];
+            }
             if(!isset($params['token2']) || (isset($params['token2'])&&$params['token2']!=$quote->getAutoresponderToken())) {
                 //Mage::getSingleton('customer/session')->addNotice("Your review token is incorrect");
                 $this->_redirect($url);
@@ -148,8 +158,6 @@ class Ebizmarts_Autoresponder_AutoresponderController extends Mage_Core_Controll
                 $this->_redirect($url);
             }
         }else{
-            Mage::log('paso 1', null, 'Santiago.log', true);
-
             $url = 'review/product/list/id/'.$params['itemId'];
             $this->_redirect($url);
         }

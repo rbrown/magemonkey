@@ -312,12 +312,15 @@ class Ebizmarts_Autoresponder_Model_Cron
                 $token2 = md5(rand(0,9999999));
                 //getFisrtElement()??
                 if(!$order->getCustomerIsGuest()){
-                    $customer = Mage::getModel('customer/customer');
-                    $customer->setStore(Mage::app()->getStore($storeId));
-                    $customer->loadByEmail($order->getCustomerEmail());
+                    $customer = Mage::getSingleton('customer/customer');
+                    $customer->setStore(Mage::app()->getStore($storeId))
+                            ->load($order->getCustomerId());
+                    //$customer->loadByEmail($order->getCustomerEmail());
                     if($customer->getId()){
                         if(!$customer->getAutoresponderToken()){
                             $customer->setAutoresponderToken($token2)->save();
+                            $customer->save();
+                            $tempCustomer = Mage::getModel('customer/customer')->load($customer->getId());
                         }else{
                             $token2 = $customer->getAutoresponderToken();
                         }
@@ -340,8 +343,6 @@ class Ebizmarts_Autoresponder_Model_Cron
                 else {
                     $vars = array('name' => $name,'tags'=>array($tags),'products'=>$products,'ordernum'=>$orderNum,'url'=>$url);
                 }
-                Mage::log('autologin', null, 'Santiago.log', true);
-                Mage::log($autologin, null, 'Santiago.log', true);
                 if($autologin == 1 && !$order->getCustomerIsGuest() && $customer->getId()){
                     $vars = array_merge($vars,array('token2' => $token2, 'id'=>$customer->getId(), 'storeId'=>$storeId));
                 }

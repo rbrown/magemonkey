@@ -24,7 +24,7 @@
                   $url .= '&token2='.$token2.'&id='.$id.'&storeId='.$storeId;
               }
               if($token) {
-                  $url .= 'token/'.$token;
+                  $url .= '&token='.$token;
               }
         ?>
             <td valign="top" align="left" style="padding:3px 9px"><a href="<?php echo $url; ?>" alt="<?php echo $this->escapeHtml($product->getName()); ?>" target="_blank"><img src="<?php echo $product->getThumbnailUrl();?>" alt="<?php echo $this->escapeHtml($product->getName()); ?>"/></a></td>

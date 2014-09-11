@@ -12,9 +12,8 @@ $installer = $this;
 
 $installer->startSetup();
 
-$installer->run("
-
-	ALTER TABLE customer_entity ADD autoresponder_token varchar(255) after disable_auto_group_change;
-");
+$installer->getConnection()->addColumn(
+    $installer->getTable('customer_entity'), 'autoresponder_token', 'varchar(255)', null, array('default' => 'null')
+);
 
 $installer->endSetup();
