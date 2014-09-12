@@ -310,27 +310,26 @@ class Ebizmarts_Autoresponder_Model_Cron
 
                 srand((double)microtime()*1000000);
                 $token2 = md5(rand(0,9999999));
-                //getFisrtElement()??
                 if(!$order->getCustomerIsGuest()){
                     $customer = Mage::getSingleton('customer/customer');
                     $customer->setStore(Mage::app()->getStore($storeId))
                             ->load($order->getCustomerId());
-                    //$customer->loadByEmail($order->getCustomerEmail());
+                    Mage::log('customer before', null, 'Santiago.log', true);
+                    Mage::log($customer->getEmail(), null, 'Santiago.log', true);
+                    Mage::log('token before', null, 'Santiago.log', true);
+                    Mage::log($customer->getAutoresponderToken(), null, 'Santiago.log', true);
                     if($customer->getId()){
                         if(!$customer->getAutoresponderToken()){
                             $customer->setAutoresponderToken($token2)->save();
-                            $customer->save();
-                            $tempCustomer = Mage::getModel('customer/customer')->load($customer->getId());
                         }else{
                             $token2 = $customer->getAutoresponderToken();
                         }
                     }
-                    //$customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
-                    Mage::log('customer', null, 'Santiago.log', true);
-                    Mage::log($customer->getEmail(), null, 'Santiago.log', true);
-                    Mage::log('----Token seteada----', null, 'Santiago.log', true);
-                    Mage::log($customer->getAutoresponderToken(), null, 'Santiago.log', true);
                 }
+                Mage::log('customer', null, 'Santiago.log', true);
+                Mage::log($customer->getEmail(), null, 'Santiago.log', true);
+                Mage::log('token', null, 'Santiago.log', true);
+                Mage::log($customer->getAutoresponderToken(), null, 'Santiago.log', true);
                 //$url2 = Mage::getModel('core/url')->setStore($storeId)->getUrl(/*'',array('_nosid'=>true)*/).'ebizautoresponder/autoresponder/review/product/list/loadquote?id='.$order->getCustomerId().'&token='.$token2;
                 /*foreach ($collection2 as $customer){
 

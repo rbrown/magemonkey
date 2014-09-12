@@ -55,9 +55,22 @@
             <ebizmarts_autoresponder_setup>
                 <setup>
                     <module>Ebizmarts_Autoresponder</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <class>Ebizmarts_Autoresponder_Model_Resource_Eav_Mysql4_Setup</class>
                 </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
             </ebizmarts_autoresponder_setup>
+            <ebizmarts_autoresponder_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </ebizmarts_autoresponder_write>
+            <ebizmarts_autoresponder_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </ebizmarts_autoresponder_read>
         </resources>
         <template>
             <email>

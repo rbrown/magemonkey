@@ -39,7 +39,11 @@ class Ebizmarts_Autoresponder_AutoresponderController extends Mage_Core_Controll
             }
             $customer = Mage::getModel('customer/customer');
             $customer->setStore(Mage::app()->getStore($params['store']))->loadByEmail($params['email']);
-            $customer->setData('autoresponder_token', NULL);
+            Mage::log('customer before', null, 'Santiago.log', true);
+            Mage::log($customer->getEmail(), null, 'Santiago.log', true);
+            Mage::log('token before', null, 'Santiago.log', true);
+            Mage::log($customer->getAutoresponderToken(), null, 'Santiago.log', true);
+            $customer->setAutoresponderToken(NULL);
             $customer->save();
             Mage::log('---Customer---', null, 'Santiago.log', true);
             Mage::log($customer->getEmail(), null, 'Santiago.log', true);

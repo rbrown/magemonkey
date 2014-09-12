@@ -12,8 +12,12 @@ $installer = $this;
 
 $installer->startSetup();
 
-$installer->getConnection()->addColumn(
-    $installer->getTable('customer_entity'), 'autoresponder_token', 'varchar(255)', null, array('default' => 'null')
-);
+$installer->installEntities();
 
 $installer->endSetup();
+
+/*$installer->getConnection()->addColumn(
+    $installer->getTable('customer_entity'), 'autoresponder_token', 'varchar(255)', null, array('default' => 'null', 'type' => 'static')
+);
+
+$installer->endSetup();*/
