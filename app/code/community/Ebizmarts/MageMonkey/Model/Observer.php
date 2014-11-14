@@ -446,12 +446,17 @@ class Ebizmarts_MageMonkey_Model_Observer
     {
         $modules = Mage::getConfig()->getNode('modules')->children();
         $modulesArray = (array)$modules;
-        if(isset($modulesArray['Netzarbeiter_CustomerActivation']) && Mage::helper('customeractivation')->isModuleActive()) {
+        $storeId = Mage::app()->getStore()->getStoreId();
+        if(Mage::getStoreConfig('monkey/general/checkout_subscribe', $storeId) > 2) {
             $customer = Mage::getModel('customer/customer')->load($observer->getEvent()->getCustomer()->getId());
             $subscriber = Mage::getModel('newsletter/subscriber')
                 ->setImportMode(TRUE)
                 ->setSubscriberEmail($customer->getEmail());
-            Mage::helper('monkey')->subscribeToMainList($subscriber, 1);
+            if (isset($modulesArray['Netzarbeiter_CustomerActivation']) && Mage::helper('customeractivation')->isModuleActive()) {
+                Mage::helper('monkey')->subscribeToMainList($subscriber, 1);
+            }else{
+                Mage::helper('monkey')->subscribeToMainList($subscriber, (Mage::getStoreConfig('monkey/general/checkout_async', $storeId)));
+            }
         }
         return $observer;
     }

@@ -241,7 +241,10 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Show Newsletter Subscribe checkbox in the last Checkout Step (Order Review)</comment>
+                            <comment>
+                                Show Newsletter Subscribe checkbox in the last Checkout Step.
+                                If subscription is forced it will also apply to account creation..
+                            </comment>
                         </checkout_subscribe>
                         <markfield translate="label comment">
                             <label>Map field to mark</label>
