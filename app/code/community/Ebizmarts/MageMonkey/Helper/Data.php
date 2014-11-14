@@ -953,12 +953,13 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
         //Check if Customer Activation extension is enabled and if customer not activated it won't get sent to MailChimp list
         $modules = Mage::getConfig()->getNode('modules')->children();
         $modulesArray = (array)$modules;
-        $isActivated = false;
+        $isActivated = -1;
         if(isset($modulesArray['Netzarbeiter_CustomerActivation']) && Mage::helper('customeractivation')->isModuleActive()) {
             $customer = Mage::getModel('customer/customer')->load($subscriber->getCustomerID());
             if ($customer->getCustomerActivated()) {
-                $isActivated = true;
+                $isActivated = 1;
             }else{
+                $isActivated = 0;
                 Mage::getSingleton('core/session')->addSuccess(Mage::helper('monkey')->__('Subscription will be submitted when your account gets activated.'));
             }
         }
@@ -987,7 +988,7 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
             }
 
             $mergeVars = Mage::helper('monkey')->mergeVars($subscriber, FALSE, $listId);
-            if($db || !$isActivated)
+            if($db || $isActivated == 0)
             {
                 $subs = Mage::getModel('monkey/asyncsubscribers');
                 $subs->setMapfields(serialize($mergeVars))

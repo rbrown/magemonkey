@@ -494,7 +494,6 @@ class Ebizmarts_MageMonkey_Model_Cron
             //Check if Customer Activation extension is enabled and if customer not activated it won't get sent to MailChimp list
             $modules = Mage::getConfig()->getNode('modules')->children();
             $modulesArray = (array)$modules;
-            $isActivated = -1;
             if(isset($modulesArray['Netzarbeiter_CustomerActivation']) && Mage::helper('customeractivation')->isModuleActive()) {
                 $customer = Mage::getModel('customer/customer')
                     ->setWebsiteId(Mage::getModel('core/store')->load(Mage::app()->getStore()->getId())->getWebsite())
