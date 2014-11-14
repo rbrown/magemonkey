@@ -44,6 +44,14 @@
                     </monkey_update_customer>
                 </observers>
             </customer_save_after>
+            <customer_register_success>
+                <observers>
+                    <monkey_subscribe_activecustomer>
+                        <class>monkey/observer</class>
+                        <method>registerActiveCustomer</method>
+                    </monkey_subscribe_activecustomer>
+                </observers>
+            </customer_register_success>
     	</events>
         <models>
             <monkey>

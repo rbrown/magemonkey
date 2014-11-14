@@ -442,4 +442,18 @@ class Ebizmarts_MageMonkey_Model_Observer
         return $observer;
     }
 
+    public function registerActiveCustomer(Varien_Event_Observer $observer)
+    {
+        $modules = Mage::getConfig()->getNode('modules')->children();
+        $modulesArray = (array)$modules;
+        if(isset($modulesArray['Netzarbeiter_CustomerActivation']) && Mage::helper('customeractivation')->isModuleActive()) {
+            $customer = Mage::getModel('customer/customer')->load($observer->getEvent()->getCustomer()->getId());
+            $subscriber = Mage::getModel('newsletter/subscriber')
+                ->setImportMode(TRUE)
+                ->setSubscriberEmail($customer->getEmail());
+            Mage::helper('monkey')->subscribeToMainList($subscriber, 1);
+        }
+        return $observer;
+    }
+
 }

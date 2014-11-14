@@ -949,6 +949,20 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
             ->addFieldToFilter('lists', $listId)
             ->addFieldToFilter('email', $email)
             ->addFieldToFilter('processed', 0);
+
+        //Check if Customer Activation extension is enabled and if customer not activated it won't get sent to MailChimp list
+        $modules = Mage::getConfig()->getNode('modules')->children();
+        $modulesArray = (array)$modules;
+        $isActivated = false;
+        if(isset($modulesArray['Netzarbeiter_CustomerActivation']) && Mage::helper('customeractivation')->isModuleActive()) {
+            $customer = Mage::getModel('customer/customer')->load($subscriber->getCustomerID());
+            if ($customer->getCustomerActivated()) {
+                $isActivated = true;
+            }else{
+                Mage::getSingleton('core/session')->addSuccess(Mage::helper('monkey')->__('Subscription will be submitted when your account gets activated.'));
+            }
+        }
+
         //if not in magemonkey_async_subscribers with processed 0 add list
         if(count($alreadyOnList) == 0){
         $isConfirmNeed = FALSE;
@@ -973,7 +987,7 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
             }
 
             $mergeVars = Mage::helper('monkey')->mergeVars($subscriber, FALSE, $listId);
-            if($db)
+            if($db || !$isActivated)
             {
                 $subs = Mage::getModel('monkey/asyncsubscribers');
                 $subs->setMapfields(serialize($mergeVars))

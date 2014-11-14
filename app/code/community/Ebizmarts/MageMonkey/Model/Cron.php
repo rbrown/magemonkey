@@ -491,12 +491,30 @@ class Ebizmarts_MageMonkey_Model_Cron
         $collection->addFieldToFilter('processed',array('eq'=>0));
         foreach($collection as $item)
         {
-            $mergeVars = unserialize($item->getMapfields());
-            $listId = $item->getLists();
-            $email = $item->getEmail();
-            $isConfirmNeed = $item->getConfirm();
-            Mage::getSingleton('monkey/api')->listSubscribe($listId, $email, $mergeVars, 'html', $isConfirmNeed);
-            $item->setProcessed(1)->save();
+            //Check if Customer Activation extension is enabled and if customer not activated it won't get sent to MailChimp list
+            $modules = Mage::getConfig()->getNode('modules')->children();
+            $modulesArray = (array)$modules;
+            $isActivated = -1;
+            if(isset($modulesArray['Netzarbeiter_CustomerActivation']) && Mage::helper('customeractivation')->isModuleActive()) {
+                $customer = Mage::getModel('customer/customer')
+                    ->setWebsiteId(Mage::getModel('core/store')->load(Mage::app()->getStore()->getId())->getWebsite())
+                    ->loadByEmail($item->getEmail());
+                if ($customer->getCustomerActivated()) {
+                    $mergeVars = unserialize($item->getMapfields());
+                    $listId = $item->getLists();
+                    $email = $item->getEmail();
+                    $isConfirmNeed = $item->getConfirm();
+                    Mage::getSingleton('monkey/api')->listSubscribe($listId, $email, $mergeVars, 'html', $isConfirmNeed);
+                    $item->setProcessed(1)->save();
+                }
+            }else{
+                $mergeVars = unserialize($item->getMapfields());
+                $listId = $item->getLists();
+                $email = $item->getEmail();
+                $isConfirmNeed = $item->getConfirm();
+                Mage::getSingleton('monkey/api')->listSubscribe($listId, $email, $mergeVars, 'html', $isConfirmNeed);
+                $item->setProcessed(1)->save();
+            }
         }
 
     }
