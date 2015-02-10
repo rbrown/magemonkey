@@ -445,12 +445,6 @@ class Ebizmarts_MageMonkey_Model_Cron
         foreach($collection as $item)
         {
             $info = (array)unserialize($item->getInfo());
-            $collection2 = Mage::getmodel('monkey/asyncsubscribers')->getCollection()
-                ->addFieldToFilter('processed',array('eq'=>1))
-                ->addFieldToFilter('email', array('eq'=>$info['email']));
-            if(count($collection2) == 0){
-                continue;
-            }
             $orderId = $info['order_id'];
             unset($info['order_id']);
             if($storeId!=$info['store_id']) {
@@ -466,14 +460,18 @@ class Ebizmarts_MageMonkey_Model_Cron
             }
             $item->setProcessed(1)->save();
 
-            Mage::getModel('monkey/ecommerce')
+            $order = Mage::getModel('monkey/ecommerce')
                 ->setOrderIncrementId($info['id'])
                 ->setOrderId($orderId)
                 ->setMcCampaignId($info['campaign_id'])
-                ->setMcEmailId($info['email'])
                 ->setCreatedAt( Mage::getModel('core/date')->gmtDate() )
-                ->setStoreId($info['store_id'])
-                ->save();
+                ->setStoreId($info['store_id']);
+            if (isset($info['email_id'])) {
+                $order->setMcEmailId($info['email_id']);
+            } else {
+                $order->setMcEmailId($info['email']);
+            }
+            $order->save();
         }
     }
     public function cleanordersAsync()
